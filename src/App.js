@@ -22,5 +22,13 @@ function App() {
 
 // Temporary values
 let items = ["Create planner", "Study networking", "Prepare for camp"];
+items = items.map((item, index) => {
+  return {
+    id: index,
+    value: item,
+    isBeingEdited: false,
+    currentValue: item
+  }
+});
 
 export default App;
