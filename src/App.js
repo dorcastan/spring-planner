@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from './fern.png';
 import './App.css';
+import TaskList from './TaskList';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  return ( // TODO: Add links
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Welcome to Spring.
+          </p>
+          <p>
+            Scroll down to see your first to-do list.
+          </p>
+        </header>
+        <TaskList items={items}/>
+      </div>
   );
 }
+
+// Temporary values
+let items = ["Create planner", "Study networking", "Prepare for camp"];
 
 export default App;

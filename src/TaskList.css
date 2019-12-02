@@ -1,0 +1,38 @@
+.TaskList {
+  background-color: #14a085;
+  min-height: 100vh;
+  color: white;
+}
+
+.TaskList-header {
+  height: 20vmin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.TaskList-list {
+  background-color: #4fba6f;
+  list-style-position: outside;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.TaskList-listbutton {
+  background: white;
+  color: #4fba6f;
+  font-size: calc(2vmin);
+}
+
+.TaskList-listitem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.TaskList-link {
+  color: #09d3ac;
+}
