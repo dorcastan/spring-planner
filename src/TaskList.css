@@ -6,7 +6,6 @@
 
 .TaskList-form {
   border-style: none;
-  font-family: inherit; /* not working */
 }
 
 .TaskList-form:focus {
