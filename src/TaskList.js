@@ -7,14 +7,15 @@ function getResizeWidth(string) {
 }
 
 function EditTaskForm(props) {
+  const { value, onSubmit, onChange } = props;
   return (
-    <form className="TaskList-editform" onSubmit={props.onSubmit}>
+    <form className="TaskList-editform" onSubmit={onSubmit}>
       <input
         className="TaskList-forminput"
         type="text"
-        value={props.value}
-        onChange={props.onChange}
-        style={{ width: getResizeWidth(props.value) }}
+        value={value}
+        onChange={onChange}
+        style={{ width: getResizeWidth(value) }}
       />
     </form>
   );
@@ -22,24 +23,29 @@ function EditTaskForm(props) {
 
 EditTaskForm.propTypes = {
   value: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 function ListItem(props) {
+  const {
+    value, handleChangeEdit, handleSubmitEdit, onClickEdit, onClickDelete,
+  } = props;
   const editSymbol = '\u270e'; // Unicode lower right pencil
   const deleteSymbol = 'X';
-  const editButtonStyle = props.value.isBeingEdited ? 'TaskList-listbutton-selected' : 'TaskList-listbutton';
+  const editButtonStyle = value.isBeingEdited ? 'TaskList-listbutton-selected' : 'TaskList-listbutton';
 
   let elementToDisplay;
-  if (props.value.isBeingEdited) {
-    elementToDisplay = <EditTaskForm
-      value={props.value.currentValue}
-      onChange={props.handleChangeEdit}
-      onSubmit={props.handleSubmitEdit}
-    />;
+  if (value.isBeingEdited) {
+    elementToDisplay = (
+      <EditTaskForm
+        value={value.currentValue}
+        onChange={handleChangeEdit}
+        onSubmit={handleSubmitEdit}
+      />
+    );
   } else {
-    elementToDisplay = <span>{props.value.value}</span>;
+    elementToDisplay = <span>{value.value}</span>;
   }
 
   return (
@@ -47,10 +53,10 @@ function ListItem(props) {
       <span className="TaskList-listitem">
         {elementToDisplay}
         <span>
-          <button className={editButtonStyle} onClick={props.onClickEdit}>
+          <button className={editButtonStyle} type="submit" onClick={onClickEdit}>
             {editSymbol}
           </button>
-          <button className="TaskList-listbutton" onClick={props.onClickDelete}>
+          <button className="TaskList-listbutton" type="submit" onClick={onClickDelete}>
             {deleteSymbol}
           </button>
         </span>
@@ -59,30 +65,58 @@ function ListItem(props) {
   );
 }
 
+ListItem.propTypes = {
+  value: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    value: PropTypes.string.isRequired,
+    isBeingEdited: PropTypes.bool.isRequired,
+    currentValue: PropTypes.string.isRequired,
+  }).isRequired,
+  handleChangeEdit: PropTypes.func.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
+  onClickEdit: PropTypes.func.isRequired,
+  onClickDelete: PropTypes.func.isRequired,
+};
+
 function NewTaskForm(props) {
+  const { value, onSubmit, onChange } = props;
   return (
     <form
       className="TaskList-newform"
-      onSubmit={props.onSubmit}
+      onSubmit={onSubmit}
     >
       <input
         className="TaskList-forminput"
         type="text"
         placeholder="Add a new task"
-        value={props.value}
-        onChange={props.onChange}
-        style={{ width: getResizeWidth(props.value) }}
+        value={value}
+        onChange={onChange}
+        style={{ width: getResizeWidth(value) }}
       />
     </form>
   );
 }
 
+NewTaskForm.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
+
 class TaskList extends React.Component {
+  static resetItem(item) {
+    return {
+      ...item,
+      isBeingEdited: false,
+      currentValue: item.value,
+    };
+  }
+
   constructor(props) {
     super(props);
     this.defaultFormValue = '';
     this.state = {
-      formValue: TaskList.defaultFormValue,
+      formValue: this.defaultFormValue,
       items: JSON.parse(localStorage.getItem('allTasks')) || props.items,
     };
 
@@ -93,16 +127,9 @@ class TaskList extends React.Component {
   }
 
   saveState() {
-    const items = this.state.items.map((item) => this.resetItem(item));
-    localStorage.setItem('allTasks', JSON.stringify(items));
-  }
-
-  resetItem(item) {
-    return {
-      ...item,
-      isBeingEdited: false,
-      currentValue: item.value,
-    };
+    const { items } = this.state;
+    const resettedItems = items.map((item) => TaskList.resetItem(item));
+    localStorage.setItem('allTasks', JSON.stringify(resettedItems));
   }
 
   handleChangeAdd(event) {
@@ -112,33 +139,35 @@ class TaskList extends React.Component {
   }
 
   handleSubmitAdd(event) {
+    const { formValue, items } = this.state;
     const newItem = {
       id: new Date().getTime(),
-      value: this.state.formValue,
+      value: formValue,
       isBeingEdited: false,
-      currentValue: this.state.formValue,
+      currentValue: formValue,
     };
     this.setState({
       formValue: this.defaultFormValue,
-      items: [...this.state.items, newItem],
+      items: [...items, newItem],
     }, () => this.saveState());
     event.preventDefault();
   }
 
   editItem(index, modifier) {
-    const items = this.state.items.slice();
-    const oldItem = items[index];
-    const newItem = modifier(oldItem);
-    items.splice(index, 1, newItem);
-    this.setState({
-      items,
+    this.setState((prevState) => {
+      const items = prevState.items.slice();
+      const oldItem = items[index];
+      const newItem = modifier(oldItem);
+      items.splice(index, 1, newItem);
+      return { items };
     }, () => this.saveState());
   }
 
   handleChangeEdit(index, event) {
+    const { value } = event.target;
     this.editItem(index, (oldItem) => ({
       ...oldItem,
-      currentValue: event.target.value,
+      currentValue: value,
     }));
   }
 
@@ -159,15 +188,16 @@ class TaskList extends React.Component {
   }
 
   deleteItem(index) {
-    const items = this.state.items.slice();
-    items.splice(index, 1);
-    this.setState({
-      items,
+    this.setState((prevState) => {
+      const items = prevState.items.slice();
+      items.splice(index, 1);
+      return { items };
     }, () => this.saveState());
   }
 
   render() {
-    const listItems = this.state.items.map((item, index) => (
+    const { items, formValue } = this.state;
+    const listItems = items.map((item, index) => (
       <ListItem
         key={item.id}
         value={item}
@@ -184,9 +214,9 @@ class TaskList extends React.Component {
         </header>
         <ol className="TaskList-list">{listItems}</ol>
         <NewTaskForm
+          value={formValue}
           onChange={this.handleChangeAdd}
           onSubmit={this.handleSubmitAdd}
-          value={this.state.formValue}
         />
       </div>
     );
