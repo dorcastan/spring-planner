@@ -70,13 +70,17 @@ class TaskList extends React.Component {
     super(props);
     this.state = {
     	formValue: this.defaultFormValue,
-      items: props.items
+      items: JSON.parse(localStorage.getItem('allTasks')) || props.items
     };
 
     this.handleChangeAdd = this.handleChangeAdd.bind(this);
     this.handleSubmitAdd = this.handleSubmitAdd.bind(this);
     this.handleChangeEdit = this.handleChangeEdit.bind(this);
     this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
+	}
+
+	saveState() {
+		localStorage.setItem('allTasks', JSON.stringify(this.state.items));
 	}
 
 	handleChangeAdd(event) {
@@ -95,7 +99,7 @@ class TaskList extends React.Component {
 		this.setState({
 			formValue: this.defaultFormValue,
 			items: [...this.state.items, newItem]
-		});
+		}, () => this.saveState());
 		event.preventDefault();
 	}
 
@@ -106,7 +110,7 @@ class TaskList extends React.Component {
 		items.splice(index, 1, newItem);
 		this.setState({
 			items: items
-		});
+		}, () => this.saveState());
 	}
 
 	handleChangeEdit(index, event) {
@@ -142,8 +146,8 @@ class TaskList extends React.Component {
 		const items = this.state.items.slice();
 		items.splice(index, 1);
 		this.setState({
-			items: items
-		});
+			items: items,
+		}, () => this.saveState());
 	}
 
   render() {
