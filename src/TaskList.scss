@@ -11,11 +11,20 @@ $accent-2: $spring-green;
   color: white;
 }
 
-.TaskList-form {
-  border-style: none;
+.TaskList-editform {
+  display: flex;
+  justify-content: flex-start;
+  max-width: calc(100% - 4em); /* To allow space for buttons */
+  padding: 0;
 }
 
-.TaskList-form:focus {
+.TaskList-forminput {
+  border-style: none;
+  min-width: 40%;
+  max-width: 100%;
+}
+
+.TaskList-forminput:focus {
   outline-color: white;
 }
 
@@ -68,4 +77,9 @@ $accent-2: $spring-green;
 
 .TaskList-link {
   color: #09d3ac;
+}
+
+.TaskList-newform {
+  max-width: 80%;
+  margin: auto;
 }
