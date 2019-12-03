@@ -80,7 +80,16 @@ class TaskList extends React.Component {
 	}
 
 	saveState() {
-		localStorage.setItem('allTasks', JSON.stringify(this.state.items));
+		const items = this.state.items.map(item => this.resetItem(item));
+		localStorage.setItem('allTasks', JSON.stringify(items));
+	}
+
+	resetItem(item) {
+		return {
+			...item,
+			isBeingEdited: false,
+			currentValue: item.value
+		}
 	}
 
 	handleChangeAdd(event) {
