@@ -1,5 +1,5 @@
 import React from 'react';
-import './TaskList.css';
+import './TaskList.scss';
 
 function EditTaskForm(props) {
 	return (
@@ -32,17 +32,17 @@ function ListItem(props) {
 
 	return (
 		<li>
-			<div className="TaskList-listitem">
+			<span className="TaskList-listitem">
 				{elementToDisplay}
-				<div>
+				<span>
 					<button className={editButtonStyle} onClick={props.onClickEdit}>
 						{editSymbol}
 					</button>
 					<button className="TaskList-listbutton" onClick={props.onClickDelete}>
 						{deleteSymbol}
 					</button>
-				</div>
-			</div>
+				</span>
+			</span>
 		</li>
 	)
 }
@@ -51,7 +51,7 @@ function NewTaskForm(props) {
 	return (
 		<form onSubmit={props.onSubmit}>
 			<label>
-				New task:
+				New task:&ensp;
 				<input // TODO: Make this resizable (non-trivial)
 					className="TaskList-form"
 					type='text'

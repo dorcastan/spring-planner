@@ -1,5 +1,12 @@
+$black: #282c34;
+$spring-green: #4fba6f;
+$turquoise: #14a085;
+$background: $black;
+$accent-1: $turquoise;
+$accent-2: $spring-green;
+
 .TaskList {
-  background-color: #14a085;
+  background-color: $accent-1;
   min-height: 100vh;
   color: white;
 }
@@ -18,11 +25,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 2vw);
 }
 
 .TaskList-list {
-  background-color: #4fba6f;
+  background-color: $accent-2;
   list-style-position: outside;
   max-width: 90%;
   margin-left: auto;
@@ -30,10 +37,10 @@
 }
 
 .TaskList-listbutton {
-  background-color: #4fba6f;
+  background-color: $accent-2;
   color: white;
   border-style: none;
-  font-size: calc(2vmin);
+  font-size: calc(1em + 1px);
   font-weight: bold;
 }
 
@@ -42,10 +49,10 @@
 }
 
 .TaskList-listbutton-selected {
-  background-color: #14a085;
+  background-color: $accent-1;
   color: white;
   border-style: none;
-  font-size: calc(2vmin);
+  font-size: calc(1em + 1px);
   font-weight: bold;
 }
 
