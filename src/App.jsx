@@ -1,10 +1,16 @@
+// @flow
+
 import React from 'react';
 import logo from './fern.png';
 import './App.css';
 import TaskList from './TaskList';
 
 // Temporary values
-let items = ['Create planner', 'Study networking', 'Prepare for camp'];
+let items = [
+  'Delete a task by clicking the X button',
+  'Edit a task by clicking the \u270e button',
+  'Click Enter after editing to save your changes',
+];
 items = items.map((item, index) => ({
   id: index,
   value: item,
@@ -21,7 +27,7 @@ function App() {
           Welcome to Spring.
         </p>
         <p>
-          Scroll down to see your first to-do list.
+          Your to-do list can be found below.
         </p>
       </header>
       <TaskList items={items} />
