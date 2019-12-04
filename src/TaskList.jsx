@@ -6,20 +6,17 @@ function getResizeWidth(string) {
   return `${(string.length > 0 ? string.length : 1) * 0.75}em`; // TODO: find a better way to resize
 }
 
-function EditTaskForm(props) {
-  const { value, onSubmit, onChange } = props;
-  return (
-    <form style={{ width: '100%' }} onSubmit={onSubmit}>
-      <input
-        className="TaskList-forminput"
-        type="text"
-        value={value}
-        onChange={onChange}
-        style={{ width: getResizeWidth(value) }}
-      />
-    </form>
-  );
-}
+const EditTaskForm = ({ value, onSubmit, onChange }) => (
+  <form style={{ width: '100%' }} onSubmit={onSubmit}>
+    <input
+      className="TaskList-forminput"
+      type="text"
+      value={value}
+      onChange={onChange}
+      style={{ width: getResizeWidth(value) }}
+    />
+  </form>
+);
 
 EditTaskForm.propTypes = {
   value: PropTypes.string.isRequired,
@@ -27,10 +24,9 @@ EditTaskForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-function ListItem(props) {
-  const {
-    value, handleChangeEdit, handleSubmitEdit, onClickEdit, onClickDelete,
-  } = props;
+const ListItem = ({
+  value, handleChangeEdit, handleSubmitEdit, onClickEdit, onClickDelete,
+}) => {
   const editSymbol = '\u270e'; // Unicode lower right pencil
   const deleteSymbol = 'X';
   const editButtonStyle = value.isBeingEdited ? 'TaskList-listbutton-selected' : 'TaskList-listbutton';
@@ -65,7 +61,7 @@ function ListItem(props) {
       </span>
     </li>
   );
-}
+};
 
 ListItem.propTypes = {
   value: PropTypes.shape({
@@ -80,24 +76,21 @@ ListItem.propTypes = {
   onClickDelete: PropTypes.func.isRequired,
 };
 
-function NewTaskForm(props) {
-  const { value, onSubmit, onChange } = props;
-  return (
-    <form
-      className="TaskList-newform"
-      onSubmit={onSubmit}
-    >
-      <input
-        className="TaskList-forminput"
-        type="text"
-        placeholder="Add a new task"
-        value={value}
-        onChange={onChange}
-        style={{ width: getResizeWidth(value) }}
-      />
-    </form>
-  );
-}
+const NewTaskForm = ({ value, onSubmit, onChange }) => (
+  <form
+    className="TaskList-newform"
+    onSubmit={onSubmit}
+  >
+    <input
+      className="TaskList-forminput"
+      type="text"
+      placeholder="Add a new task"
+      value={value}
+      onChange={onChange}
+      style={{ width: getResizeWidth(value) }}
+    />
+  </form>
+);
 
 NewTaskForm.propTypes = {
   value: PropTypes.string.isRequired,
