@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import './TaskList.scss';
 
 function getResizeWidth(string) {
-  return `${string.length * 0.75}em`; // TODO: find a better way to resize
+  return `${(string.length > 0 ? string.length : 1) * 0.75}em`; // TODO: find a better way to resize
 }
 
 function EditTaskForm(props) {
   const { value, onSubmit, onChange } = props;
   return (
-    <form className="TaskList-editform" onSubmit={onSubmit}>
+    <form style={{ width: '100%' }} onSubmit={onSubmit}>
       <input
         className="TaskList-forminput"
         type="text"
@@ -45,13 +45,15 @@ function ListItem(props) {
       />
     );
   } else {
-    elementToDisplay = <span>{value.value}</span>;
+    elementToDisplay = <span className="TaskList-text">{value.value}</span>;
   }
 
   return (
     <li>
       <span className="TaskList-listitem">
-        {elementToDisplay}
+        <span className="TaskList-listtext">
+          {elementToDisplay}
+        </span>
         <span>
           <button className={editButtonStyle} type="submit" onClick={onClickEdit}>
             {editSymbol}

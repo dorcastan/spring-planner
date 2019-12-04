@@ -11,13 +11,6 @@ $accent-2: $spring-green;
   color: white;
 }
 
-.TaskList-editform {
-  display: flex;
-  justify-content: flex-start;
-  max-width: calc(100% - 4em); /* To allow space for buttons */
-  padding: 0;
-}
-
 .TaskList-forminput {
   border-style: none;
   min-width: 40%;
@@ -75,6 +68,11 @@ $accent-2: $spring-green;
   align-items: center;
 }
 
+.TaskList-listtext {
+  display: flex;
+  max-width: calc(100% - 4em); /* To allow space for buttons */
+}
+
 .TaskList-link {
   color: #09d3ac;
 }
@@ -82,4 +80,9 @@ $accent-2: $spring-green;
 .TaskList-newform {
   max-width: 80%;
   margin: auto;
+}
+
+.TaskList-text {
+  word-break: break-word;
+  text-align: left;
 }
