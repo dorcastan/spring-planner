@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './TaskList.scss';
+import '../styles/TaskList.scss';
 
 function getResizeWidth(string) {
   return `${(string.length > 0 ? string.length : 1) * 0.75}em`; // TODO: find a better way to resize

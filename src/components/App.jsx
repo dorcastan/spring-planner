@@ -1,8 +1,6 @@
-// @flow
-
 import React from 'react';
-import logo from './fern.png';
-import './App.css';
+import logo from '../images/fern.png';
+import '../styles/App.css';
 import TaskList from './TaskList';
 
 // Temporary values
