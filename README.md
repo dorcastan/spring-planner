@@ -19,3 +19,13 @@ Spring is implemented using React and CSS.
 [//]: <> (Customisation for flexible projects: tasks)
 
 ### Habit Tracker
+
+## Developer Notes
+
+* Run the project locally: `npm start`
+
+* Technologies used
+    * React for components
+    * CSS for styling
+    * SCSS (testing with `TaskList.scss`)
+    * TypeScript
